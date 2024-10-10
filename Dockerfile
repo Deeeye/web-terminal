@@ -1,4 +1,4 @@
-# Backend build stage
+## Backend build stage
 FROM node:16-alpine AS backend-build
 WORKDIR /app/backend
 COPY backend/package.json backend/package-lock.json ./
@@ -26,6 +26,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy frontend build files from the frontend-build stage
 COPY --from=frontend-build /app/frontend/build .
+
 # Copy backend build files from the backend-build stage
 COPY --from=backend-build /app/backend/build /usr/share/nginx/backend
 
