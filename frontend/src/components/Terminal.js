@@ -1,3 +1,4 @@
+// frontend/src/components/Terminal.js
 import React, { useEffect, useRef, useState } from 'react';
 import { Terminal } from 'xterm';
 import 'xterm/css/xterm.css';
@@ -61,4 +62,3 @@ const TerminalComponent = ({ id, host, username, password, onClose }) => {
 };
 
 export default TerminalComponent;
-
