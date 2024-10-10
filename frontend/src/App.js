@@ -1,18 +1,14 @@
 import React from 'react';
-import './App.css';
-import TerminalProvider from './context/TerminalContext';
-import TerminalManager from './components/TerminalManager';
+import './App.css';  // Make sure this line correctly references App.css
 
 function App() {
   return (
-    <TerminalProvider>
-      <div className="App">
-        <h1>Web Terminal Application</h1>
-        <TerminalManager />
-      </div>
-    </TerminalProvider>
+    <div className="App">
+      <header className="App-header">
+        <h1>Welcome to Web Terminal</h1>
+      </header>
+    </div>
   );
 }
 
 export default App;
-
