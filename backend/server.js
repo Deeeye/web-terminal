@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 const port = config.port;
 
-// Serve static frontend files (if using a combined deployment)
+// Serve static frontend files if deployed together
 app.use(express.static('public'));
 
 const server = app.listen(port, () => {
