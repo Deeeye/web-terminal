@@ -1,7 +1,7 @@
 // frontend/src/App.js
 import React from 'react';
 import './styles/App.css';
-import TerminalManager from './components/TerminalManager'; // Import the TerminalManager component
+import TerminalManager from './components/TerminalManager';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <header className="App-header">
         <h1>DevOps Terminal</h1>
       </header>
-      <TerminalManager /> {/* Display the TerminalManager component */}
+      <TerminalManager />
     </div>
   );
 }
