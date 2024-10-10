@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
+    image: deeeye2/devops-bot-terminal-backend:v1.0.1  # Use the image name and tag from Jenkinsfile
     container_name: devops-terminal-backend
     ports:
       - "3001:3001"
@@ -17,9 +15,7 @@ services:
       - web-terminal-network
 
   frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
+    image: deeeye2/devops-bot-terminal-frontend:v1.0.1  # Use the image name and tag from Jenkinsfile
     container_name: devops-terminal-frontend
     ports:
       - "80:80"  # Expose frontend on port 80
@@ -31,4 +27,3 @@ services:
 networks:
   web-terminal-network:
     driver: bridge
-
