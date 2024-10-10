@@ -5,6 +5,7 @@ export const TerminalContext = createContext();
 
 const TerminalProvider = ({ children }) => {
   const [terminals, setTerminals] = useState([]);
+  const [activeTerminal, setActiveTerminal] = useState(null);
 
   const addTerminal = (terminal) => {
     setTerminals([...terminals, terminal]);
@@ -15,7 +16,7 @@ const TerminalProvider = ({ children }) => {
   };
 
   return (
-    <TerminalContext.Provider value={{ terminals, addTerminal, removeTerminal }}>
+    <TerminalContext.Provider value={{ terminals, addTerminal, removeTerminal, activeTerminal, setActiveTerminal }}>
       {children}
     </TerminalContext.Provider>
   );
