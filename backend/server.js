@@ -1,16 +1,11 @@
-// backend/server.js
 const express = require('express');
 const { Server } = require('ws');
 const { Client } = require('ssh2');
 const cors = require('cors');
-const config = require('./config/config');
-
 const app = express();
 app.use(cors());
-const port = config.port;
 
-// Serve static frontend files if deployed together
-app.use(express.static('public'));
+const port = process.env.PORT || 3001;
 
 const server = app.listen(port, () => {
   console.log(`Backend server started on http://localhost:${port}`);
@@ -39,10 +34,10 @@ wss.on('connection', (ws) => {
           stream.on('data', (chunk) => ws.send(JSON.stringify({ type: 'data', data: chunk.toString('utf-8') })));
         });
       }).connect({
-        host: data.host || config.ssh.host,
-        port: data.port || config.ssh.port,
-        username: data.username || config.ssh.username,
-        password: data.password || config.ssh.password,
+        host: data.host || process.env.SSH_HOST,
+        port: data.port || process.env.SSH_PORT,
+        username: data.username || process.env.SSH_USERNAME,
+        password: data.password || process.env.SSH_PASSWORD,
       });
     } else if (type === 'command' && shell) {
       // Send command to SSH shell
@@ -56,3 +51,4 @@ wss.on('connection', (ws) => {
     conn.end();
   });
 });
+
