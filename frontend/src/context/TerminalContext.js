@@ -1,10 +1,10 @@
+// frontend/src/context/TerminalContext.js
 import React, { createContext, useState } from 'react';
 
 export const TerminalContext = createContext();
 
 const TerminalProvider = ({ children }) => {
   const [terminals, setTerminals] = useState([]);
-  const [activeTerminal, setActiveTerminal] = useState(null);
 
   const addTerminal = (terminal) => {
     setTerminals([...terminals, terminal]);
@@ -15,11 +15,10 @@ const TerminalProvider = ({ children }) => {
   };
 
   return (
-    <TerminalContext.Provider value={{ terminals, addTerminal, removeTerminal, activeTerminal, setActiveTerminal }}>
+    <TerminalContext.Provider value={{ terminals, addTerminal, removeTerminal }}>
       {children}
     </TerminalContext.Provider>
   );
 };
 
 export default TerminalProvider;
-
