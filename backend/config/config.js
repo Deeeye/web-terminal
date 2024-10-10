@@ -1,3 +1,4 @@
+// backend/config/config.js
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -10,4 +11,3 @@ module.exports = {
     password: process.env.SSH_PASSWORD || 'pass',
   },
 };
-
