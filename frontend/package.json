@@ -17,7 +17,8 @@
     "react-scripts": "4.0.3",
     "xterm": "^5.0.0",
     "xterm-addon-fit": "^0.7.0",
-    "react-draggable": "^4.4.5"  
+    "react-draggable": "^4.4.5"   
+    "react-resizable": "^1.11.0"  
   },
   "devDependencies": {},
   "eslintConfig": {
