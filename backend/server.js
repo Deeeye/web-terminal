@@ -1,18 +1,15 @@
+// backend/server.js
 const express = require('express');
 const { Server } = require('ws');
 const { Client } = require('ssh2');
 const cors = require('cors');
 const config = require('./config/config');
-const dotenv = require('dotenv');
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 app.use(cors());
 const port = config.port;
 
-// Serve frontend if deployed together (optional)
+// Serve static frontend files (if using a combined deployment)
 app.use(express.static('public'));
 
 const server = app.listen(port, () => {
@@ -35,28 +32,17 @@ wss.on('connection', (ws) => {
     if (type === 'connect') {
       // Establish SSH connection
       conn.on('ready', () => {
-        console.log('SSH connection established');
         conn.shell((err, stream) => {
-          if (err) {
-            console.error('Error starting shell:', err);
-            return ws.send(JSON.stringify({ type: 'error', data: err.message }));
-          }
+          if (err) return ws.send(JSON.stringify({ type: 'error', data: err.message }));
 
           shell = stream;
-          stream.on('data', (chunk) => {
-            ws.send(JSON.stringify({ type: 'data', data: chunk.toString('utf-8') }));
-          });
+          stream.on('data', (chunk) => ws.send(JSON.stringify({ type: 'data', data: chunk.toString('utf-8') })));
         });
       }).connect({
         host: data.host || config.ssh.host,
         port: data.port || config.ssh.port,
         username: data.username || config.ssh.username,
         password: data.password || config.ssh.password,
-      });
-
-      conn.on('error', (err) => {
-        console.error('SSH Connection Error:', err);
-        ws.send(JSON.stringify({ type: 'error', data: `SSH Connection Error: ${err.message}` }));
       });
     } else if (type === 'command' && shell) {
       // Send command to SSH shell
