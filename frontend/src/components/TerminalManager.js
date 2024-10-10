@@ -36,4 +36,3 @@ const TerminalManager = () => {
 };
 
 export default TerminalManager;
-
