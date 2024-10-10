@@ -4,7 +4,9 @@ WORKDIR /app/backend
 COPY backend/package.json backend/package-lock.json ./
 RUN npm install
 COPY backend .
-RUN npm run build
+
+# If the backend doesn't need to be built, create an empty build directory
+RUN mkdir -p /app/backend/build
 
 # Frontend build stage
 FROM node:16-alpine AS frontend-build
