@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import TerminalProvider from './context/TerminalContext'; // Wrap the app with the TerminalProvider
+import TerminalProvider from './context/TerminalContext';
 
 ReactDOM.render(
   <React.StrictMode>
