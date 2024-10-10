@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.css';  // Ensure this line is referencing the correct file
 import App from './App';
 
 ReactDOM.render(
@@ -9,4 +9,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
