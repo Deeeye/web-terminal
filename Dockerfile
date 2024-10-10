@@ -19,7 +19,14 @@ RUN npm run build
 # Final production stage
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
+
+# Copy the custom Nginx configuration file from the build context to Nginx's configuration directory
+# Ensure `nginx.conf` is located in the build context (same directory as Dockerfile or Jenkins workspace)
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy frontend build files from the frontend-build stage
 COPY --from=frontend-build /app/frontend/build .
+# Copy backend build files from the backend-build stage
 COPY --from=backend-build /app/backend/build /usr/share/nginx/backend
 
 # Expose necessary ports
