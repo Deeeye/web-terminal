@@ -11,6 +11,3 @@ FROM nginx:alpine
 COPY --from=frontend-build /app/frontend/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
-
-# Start NGINX server
-CMD ["nginx", "-g", "daemon off;"]
