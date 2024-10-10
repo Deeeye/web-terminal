@@ -1,25 +1,17 @@
-// TerminalContext.js
-import React, { createContext, useState } from 'react';
+// frontend/src/App.js
+import React from 'react';
+import './styles/App.css';
+import TerminalManager from './components/TerminalManager'; // Import the TerminalManager component
 
-export const TerminalContext = createContext();
-
-const TerminalProvider = ({ children }) => {
-  const [terminals, setTerminals] = useState([]);
-  const [activeTerminal, setActiveTerminal] = useState(null);
-
-  const addTerminal = (terminal) => {
-    setTerminals([...terminals, terminal]);
-  };
-
-  const removeTerminal = (id) => {
-    setTerminals(terminals.filter((term) => term.id !== id));
-  };
-
+function App() {
   return (
-    <TerminalContext.Provider value={{ terminals, addTerminal, removeTerminal, activeTerminal, setActiveTerminal }}>
-      {children}
-    </TerminalContext.Provider>
+    <div className="App">
+      <header className="App-header">
+        <h1>DevOps Terminal</h1>
+      </header>
+      <TerminalManager /> {/* Display the TerminalManager component */}
+    </div>
   );
-};
+}
 
-export default TerminalProvider;
+export default App;
