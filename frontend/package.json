@@ -9,14 +9,14 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "author": "Your Name",
+  "author": "devops-bot",
   "license": "MIT",
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "xterm": "^4.13.0",
-    "xterm-addon-fit": "^0.7.0"
+    "xterm": "^5.0.0",        // Updated xterm version
+    "xterm-addon-fit": "^0.7.0"  // Compatible version of xterm-addon-fit
   },
   "devDependencies": {},
   "eslintConfig": {
