@@ -1,24 +1,34 @@
 version: '3.8'
+
 services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: backend/Dockerfile
+    container_name: devops-terminal-backend
     ports:
       - "3001:3001"
+    environment:
+      - SSH_HOST=localhost
+      - SSH_PORT=22
+      - SSH_USERNAME=user
+      - SSH_PASSWORD=pass
     networks:
-      - webnet
+      - web-terminal-network
 
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: frontend/Dockerfile
+    container_name: devops-terminal-frontend
     ports:
-      - "80:80"
+      - "80:80"  # Expose frontend on port 80
     depends_on:
       - backend
     networks:
-      - webnet
+      - web-terminal-network
 
 networks:
-  webnet:
+  web-terminal-network:
+    driver: bridge
+
