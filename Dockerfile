@@ -1,4 +1,4 @@
-## Backend build stage
+# Backend build stage
 FROM node:16-alpine AS backend-build
 WORKDIR /app/backend
 COPY backend/package.json backend/package-lock.json ./
@@ -13,6 +13,8 @@ FROM node:16-alpine AS frontend-build
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
+# Ensure xterm-addon-fit is installed in case it's missing in the package.json
+RUN npm install xterm-addon-fit
 COPY frontend .
 RUN npm run build
 
@@ -21,12 +23,10 @@ FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 
 # Copy the custom Nginx configuration file from the build context to Nginx's configuration directory
-# Ensure `nginx.conf` is located in the build context (same directory as Dockerfile or Jenkins workspace)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy frontend build files from the frontend-build stage
 COPY --from=frontend-build /app/frontend/build .
-
 # Copy backend build files from the backend-build stage
 COPY --from=backend-build /app/backend/build /usr/share/nginx/backend
 
