@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
-import { TerminalContext } from '../context/TerminalContext';
+import { TerminalContext } from '../context/TerminalContext'; // Ensure correct path
 import TerminalComponent from './Terminal';
 
 const TerminalManager = () => {
   const { terminals, addTerminal, removeTerminal } = useContext(TerminalContext);
+
+  if (!terminals) {
+    return <div>Error: Terminals not found</div>;  // Add this for debugging purposes
+  }
 
   const handleAddTerminal = () => {
     const newTerminal = {
@@ -35,4 +39,3 @@ const TerminalManager = () => {
 };
 
 export default TerminalManager;
-
