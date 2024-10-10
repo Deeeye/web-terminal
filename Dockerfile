@@ -12,9 +12,10 @@ RUN mkdir -p /app/backend/build
 FROM node:16-alpine AS frontend-build
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm install
-# Ensure xterm-addon-fit is installed in case it's missing in the package.json
-RUN npm install xterm-addon-fit
+# Use legacy peer deps to bypass dependency conflict if needed
+RUN npm install --legacy-peer-deps
+# Ensure the missing dependencies are installed
+RUN npm install xterm-addon-fit react-draggable
 COPY frontend .
 RUN npm run build
 
