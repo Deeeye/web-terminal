@@ -2,10 +2,16 @@ const express = require('express');
 const { Server } = require('ws');
 const { Client } = require('ssh2');
 const cors = require('cors');
+
 const app = express();
 app.use(cors());
 
 const port = process.env.PORT || 3001;
+
+// Root route
+app.get('/', (req, res) => {
+  res.send('<h1>Backend Server Running</h1><p>This is the root route. WebSocket is available for SSH connections.</p>');
+});
 
 const server = app.listen(port, () => {
   console.log(`Backend server started on http://localhost:${port}`);
@@ -51,4 +57,3 @@ wss.on('connection', (ws) => {
     conn.end();
   });
 });
-
