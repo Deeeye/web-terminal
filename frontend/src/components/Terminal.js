@@ -1,5 +1,3 @@
-// frontend/src/components/Terminal.js
-
 import React, { useEffect, useRef, useState } from 'react';
 import { Terminal } from 'xterm';
 import 'xterm/css/xterm.css';
@@ -15,10 +13,10 @@ const TerminalComponent = ({ id, host, username, password, onClose }) => {
   const fitAddon = new FitAddon();
 
   useEffect(() => {
-    // Dynamically construct the WebSocket URL based on the current host and protocol
+    // Dynamically construct the WebSocket URL based on the current window location
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.hostname}:${window.location.port}/ws`;
-    console.log('WebSocket URL:', wsUrl); // Log the WebSocket URL to ensure it's correct
+    const wsUrl = `${protocol}//${window.location.hostname}/ws`;
+    console.log('WebSocket URL:', wsUrl);  // Log to verify the WebSocket URL
 
     const socket = new WebSocket(wsUrl);
 
@@ -29,13 +27,9 @@ const TerminalComponent = ({ id, host, username, password, onClose }) => {
     };
 
     socket.onmessage = (event) => {
-      try {
-        const msg = JSON.parse(event.data);
-        if (msg.type === 'data') {
-          term.write(msg.data);
-        }
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
+      const msg = JSON.parse(event.data);
+      if (msg.type === 'data') {
+        term.write(msg.data);
       }
     };
 
@@ -60,8 +54,8 @@ const TerminalComponent = ({ id, host, username, password, onClose }) => {
     });
 
     return () => {
-      socket.close(); // Close WebSocket connection
-      term.dispose(); // Dispose terminal instance
+      socket.close();
+      term.dispose();
     };
   }, [term, host, username, password]);
 
