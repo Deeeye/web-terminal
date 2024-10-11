@@ -1,5 +1,5 @@
 # Use Node.js image to build the frontend
-FROM node:16-alpine as build
+FROM node:16-alpine AS build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -22,9 +22,11 @@ FROM nginx:alpine
 # Remove default NGINX configuration
 RUN rm /etc/nginx/conf.d/default.conf
 
-# Copy custom NGINX configuration file
-COPY nginx.conf /etc/nginx/nginx.conf  # Path for main nginx configuration
-COPY ../nginx/server.conf /etc/nginx/conf.d/server.conf  # Copy server-specific configuration
+# Copy the custom NGINX configuration file
+COPY ./nginx.conf /etc/nginx/nginx.conf  # Ensure nginx.conf is in the frontend directory
+
+# Copy server-specific configuration
+COPY ../nginx/server.conf /etc/nginx/conf.d/server.conf  # Adjust the relative path if needed
 
 # Copy build output from the previous stage to NGINX's root directory
 COPY --from=build /app/build /usr/share/nginx/html
@@ -34,3 +36,4 @@ EXPOSE 80
 
 # Start NGINX server
 CMD ["nginx", "-g", "daemon off;"]
+
