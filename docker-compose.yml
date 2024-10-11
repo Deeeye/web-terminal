@@ -15,7 +15,8 @@ services:
       - web-terminal-network
 
   frontend:
-    image: deeeye2/devops-bot-terminal-frontend:v1.0.1
+    build:
+      context: ./frontend  # Updated build context to ensure it includes all frontend files
     container_name: devops-terminal-frontend
     ports:
       - "80:80"
@@ -44,4 +45,5 @@ services:
 networks:
   web-terminal-network:
     driver: bridge
+
 
