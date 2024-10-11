@@ -24,7 +24,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy custom NGINX configuration file
 COPY nginx.conf /etc/nginx/nginx.conf  # Path for main nginx configuration
-COPY server.conf /etc/nginx/conf.d/server.conf  # Path for server-specific configuration
+COPY ../nginx/server.conf /etc/nginx/conf.d/server.conf  # Copy server-specific configuration
 
 # Copy build output from the previous stage to NGINX's root directory
 COPY --from=build /app/build /usr/share/nginx/html
