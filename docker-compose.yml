@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   backend:
-    image: deeeye2/devops-bot-terminal-backend:v1.0.1
+    build:
+      context: ./backend  # Build the backend image from the backend directory
     container_name: devops-terminal-backend
     ports:
       - "3001:3001"
@@ -16,7 +17,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend  # Build the frontend image from the frontend directory
     container_name: devops-terminal-frontend
     ports:
       - "80:80"
@@ -34,8 +35,8 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./frontend/build:/usr/share/nginx/html/build  # Map frontend build to nginx
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Use the nginx config from the nginx directory
+      - ./frontend/build:/usr/share/nginx/html  # Map frontend build output to nginx
     depends_on:
       - frontend
     environment:
