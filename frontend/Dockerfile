@@ -1,4 +1,4 @@
-# Use Node.js image to build the frontend
+## Use Node.js image to build the frontend
 FROM node:16-alpine as build
 
 # Set the working directory in the container
