@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: deeeye2/devops-bot-terminal-backend:v1.0.1  # Use the image name and tag from Jenkinsfile
+    image: deeeye2/devops-bot-terminal-backend:v1.0.1  # Use the backend image name and tag from Jenkinsfile
     container_name: devops-terminal-backend
     ports:
       - "3001:3001"
@@ -15,12 +15,24 @@ services:
       - web-terminal-network
 
   frontend:
-    image: deeeye2/devops-bot-terminal-frontend:v1.0.1  # Use the image name and tag from Jenkinsfile
+    image: deeeye2/devops-bot-terminal-frontend:v1.0.1  # Use the frontend image name and tag from Jenkinsfile
     container_name: devops-terminal-frontend
     ports:
       - "80:80"  # Expose frontend on port 80
     depends_on:
       - backend
+    networks:
+      - web-terminal-network
+
+  nginx:
+    image: nginx:alpine  # Use the official NGINX image for serving the frontend
+    container_name: devops-terminal-nginx
+    ports:
+      - "8081:80"  # Change NGINX to port 8081 to avoid conflict with Jenkins
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf  # Use a custom NGINX config if needed
+    depends_on:
+      - frontend
     networks:
       - web-terminal-network
 
