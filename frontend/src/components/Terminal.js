@@ -15,24 +15,22 @@ const TerminalComponent = ({ id, host, username, password, onClose }) => {
   const fitAddon = new FitAddon();
 
   useEffect(() => {
-    // Use fallback URL if REACT_APP_WS_URL is not set or is undefined
-    const socketUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:3001/ws';
-    console.log('WebSocket URL:', socketUrl); // Log the WebSocket URL to ensure it's correct
+    // Dynamically construct the WebSocket URL based on the current host and protocol
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${window.location.hostname}:${window.location.port}/ws`;
+    console.log('WebSocket URL:', wsUrl); // Log the WebSocket URL to ensure it's correct
 
-    const socket = new WebSocket(socketUrl);
+    const socket = new WebSocket(wsUrl);
 
-    // Event: WebSocket connection successfully opened
+    // WebSocket event handling
     socket.onopen = () => {
       console.log('WebSocket connection established successfully');
       socket.send(JSON.stringify({ type: 'connect', data: { host, username, password } }));
     };
 
-    // Event: WebSocket message received
     socket.onmessage = (event) => {
       try {
         const msg = JSON.parse(event.data);
-        console.log('Received message:', msg); // Log received message for debugging
-
         if (msg.type === 'data') {
           term.write(msg.data);
         }
@@ -41,22 +39,18 @@ const TerminalComponent = ({ id, host, username, password, onClose }) => {
       }
     };
 
-    // Event: WebSocket error
     socket.onerror = (error) => {
       console.error('WebSocket encountered an error:', error);
     };
 
-    // Event: WebSocket connection closed
     socket.onclose = (event) => {
       console.warn('WebSocket connection closed:', event.reason);
     };
 
-    // Event: Handle terminal input
     term.loadAddon(fitAddon);
     term.open(terminalRef.current);
     fitAddon.fit();
 
-    // Event: Send data to WebSocket when the user types in the terminal
     term.onData((data) => {
       if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({ type: 'command', data }));
@@ -65,7 +59,6 @@ const TerminalComponent = ({ id, host, username, password, onClose }) => {
       }
     });
 
-    // Cleanup function when component is unmounted
     return () => {
       socket.close(); // Close WebSocket connection
       term.dispose(); // Dispose terminal instance
@@ -93,4 +86,5 @@ const TerminalComponent = ({ id, host, username, password, onClose }) => {
 };
 
 export default TerminalComponent;
+
 
