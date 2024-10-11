@@ -21,6 +21,8 @@ services:
       - "80:80"  # Expose frontend on port 80
     depends_on:
       - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:3001  # Use the backend service URL in the frontend environment
     networks:
       - web-terminal-network
 
@@ -30,9 +32,12 @@ services:
     ports:
       - "8081:80"  # Change NGINX to port 8081 to avoid conflict with Jenkins
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf  # Use a custom NGINX config if needed
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Use a custom NGINX config if needed
     depends_on:
       - frontend
+    environment:
+      - NGINX_HOST=nginx
+      - NGINX_PORT=80
     networks:
       - web-terminal-network
 
